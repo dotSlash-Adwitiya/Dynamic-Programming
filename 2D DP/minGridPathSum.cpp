@@ -52,32 +52,29 @@ int minSumPathMemo(vector<vector<int>> &grid) {
 }
 
 // * TABULATION Approach
-int minSumPath(vector<vector<int>> &grid) {
+int minSumPathTAB(vector<vector<int>> &grid) {
   int n = grid.size();
   int m = grid[0].size();
   vector<vector<int>> dp(n, vector<int>(m,0));
+  
+  // dp[0][0] = grid[0][0];
 
   for(int i = 0; i < n; i++) {
       for(int j = 0; j < m; j++) {
           
-          // * 1st step -- BASE_CASE
+          // * 1st step
           if(i == 0 && j == 0)
-              dp[i][j] = grid[i][j];
+              dp[0][0] = grid[0][0];
           
-          // * 2nd Step -- DO STUFF
+          // * 2nd Step
           else {
-              int left = grid[i][j], up = grid[i][j];
+              int left = 1e9, up = 1e9;
               if(j > 0) 
-                  left += dp[i][j-1];
-              else 
-                  left += 1e9;
+                  left = grid[i][j] + dp[i][j-1];
               if(i > 0) 
-                  up +=  dp[i-1][j];
-              else 
-                  up += 1e9;
-              
-              //  * 3rd step - DO WHat's ASKED in the Question!
-              dp[i][j] = min(up, left);
+                  up = grid[i][j] + dp[i-1][j];
+              //  * 3rd step
+          dp[i][j] = min(up, left);
           }
       }
   }
