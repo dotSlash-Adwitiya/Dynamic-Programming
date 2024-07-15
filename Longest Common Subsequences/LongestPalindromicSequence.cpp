@@ -2,6 +2,35 @@
 using namespace std;
 
 
+// * Approach - 1
+// * Memoization Approach :
+int longestPalindromicSubseqUtil(string &s, int start, int end, vector<vector<int>> &dp) {
+    if (start > end) {
+        return 0;
+    }
+    if (start == end) {
+        return 1;
+    }
+    if (dp[start][end] != -1) {
+        return dp[start][end];
+    }
+    if (s[start] == s[end]) {
+        dp[start][end] = 2 + longestPalindromicSubseqUtil(s, start + 1, end - 1, dp);
+    } else {
+        dp[start][end] = max(longestPalindromicSubseqUtil(s, start + 1, end, dp),
+                            longestPalindromicSubseqUtil(s, start, end - 1, dp));
+    }
+    return dp[start][end];
+}
+int longestPalindromeSubsequence(string s)
+{
+  int n = s.size();
+    vector<vector<int>> dp(n, vector<int>(n, -1));
+    return longestPalindromicSubseqUtil(s, 0, n - 1, dp);
+}
+
+// * Approach - 2
+// * Converted the problem to LCS by reversing the given string
 int lcs(string s, string t)
 {
 	int n = s.size();
