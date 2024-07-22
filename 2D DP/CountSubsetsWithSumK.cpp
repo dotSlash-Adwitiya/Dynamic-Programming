@@ -58,8 +58,31 @@ int perfectSum(int arr[], int n, int sum)
 	  
 
 // * Practice - 1
+const int mod = 1e9+7;
+int helperMemo(int ind, int target, int arr[], vector<vector<int>>& dp) {
+    // * Base case-I : If the target sum is 0, we found a valid subset
+    if (target == 0)
+        return 1;
+
+    // * Base case -II : If we have considered all elements and the target is still not 0, return 0
+    if (ind == 0) 
+    return (arr[0] == target) ? 1 : 0;
+    
+
+    if (dp[ind][target] != -1)
+        return dp[ind][target];
 
 
+    int notTaken = helperMemo(ind - 1, target, arr, dp);
+
+    int taken = 0;
+    if (arr[ind] <= target)
+        taken = helperMemo(ind - 1, target - arr[ind], arr, dp);
+
+    return dp[ind][target] = (notTaken + taken) % mod;
+}
+
+// * Practice - 2
 const int mod = 1e9+7;
 int helperMemo(int ind, int target, int arr[], vector<vector<int>>& dp) {
     // * Base case-I : If the target sum is 0, we found a valid subset
