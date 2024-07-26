@@ -109,7 +109,7 @@ bool wildcardMatching(string pattern, string text)
   return f(n, m, pattern, text, dp);
 }
 
-// * TABULATION
+// * TABULATION Approach
 bool isAllStars(string &S1, int i) {
   // S1 is taken in 1-based indexing
   for (int j = 1; j <= i; j++) {
