@@ -28,3 +28,14 @@ int maximumProfit(vector<int> &prices){
     }
     return maxProfit;
 }
+
+// * Optimal Approach - Practice - 2
+int maximumProfit(vector<int> &prices){
+    int maxProfit = 0, n = prices.size();
+    int minStock = prices[0];
+    for(int i = 0; i < n; i++) {
+        if(prices[i] <= minStock) minStock = prices[i];
+        else maxProfit = max(maxProfit, prices[i] - minStock);
+    }
+    return maxProfit;
+}
