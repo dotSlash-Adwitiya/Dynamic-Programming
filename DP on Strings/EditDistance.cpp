@@ -110,3 +110,52 @@ int editDistance(string s1, string s2)
   }
   return dp[n][m];
 }
+
+// * Practice - 1
+
+// * Recursive Approach
+// * T.C: O(3ⁿ)
+// * S.C: O(N+M)
+int f(int i, int j, string s1, string s2) {
+    if(i < 0) return j+1;
+    if(j < 0) return i+1;
+
+    int insert = 1e9, del = 1e9, replace = 1e9;
+
+    if(s1[i] == s2[j])
+        return 0 + f(i-1, j-1, s1, s2);
+
+    else {
+        insert = 1 + f(i, j-1, s1, s2);
+        del = 1 + f(i-1, j, s1, s2);
+        replace = 1 + f(i-1, j-1, s1, s2); 
+    }
+    return min(insert, min(del, replace));
+}
+
+int editDistance(string str1, string str2)
+{
+    int n = str1.size(), m = str2.size();
+    return f(n-1, m-1, str1, str2);
+}
+
+// * Memoization
+int f(int i, int j, string s1, string s2, vector<vector<int>> &dp) {
+    if(i < 0) return j+1;
+    if(j < 0) return i+1;
+
+    if(dp[i][j] != -1)
+        return dp[i][j];
+
+    int insert = 1e9, del = 1e9, replace = 1e9;
+
+    if(s1[i] == s2[j])
+        return dp[i][j] = 0 + f(i-1, j-1, s1, s2, dp);
+
+    else {
+        insert = 1 + f(i, j-1, s1, s2, dp);
+        del = 1 + f(i-1, j, s1, s2, dp);
+        replace = 1 + f(i-1, j-1, s1, s2, dp); 
+    }
+    return dp[i][j] = min(insert, min(del, replace));
+}
