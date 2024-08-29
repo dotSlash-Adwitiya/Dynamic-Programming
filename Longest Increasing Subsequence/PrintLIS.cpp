@@ -17,7 +17,7 @@ vector<int> printingLongestIncreasingSubsequence(vector<int> arr, int n) {
       }
       if(dp[idx] > maxLen){
           maxLen = dp[idx];
-          lastIdx = idx;
+          lastIdx = idx; // * Store the last index of maximum dp[idx]
       }
   }
 
