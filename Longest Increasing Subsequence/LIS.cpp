@@ -35,6 +35,8 @@ int getAns(int arr[], int n, int ind, int prev_index, vector<vector<int>>& dp) {
 }
 
 int longestIncreasingSubsequence(int arr[], int n) {
+    // * Storing -1 at 0th index, 0 at 1, 1 at 2, 2 at 3rd index and so on.......
+    // * Thats why we create dp of size n+1
     vector<vector<int>> dp(n, vector<int>(n + 1, -1));
     return getAns(arr, n, 0, -1, dp);
 }
@@ -79,7 +81,25 @@ int longestIncreasingSubsequence(int arr[], int n) {
   return next[0];
 }
 
+// * This is the final approach I learnt.
+// * This is the 2nd most optimized solution for this problem.
+// * T.C: O(N), S.C: O(N) Single Array
+int longestIncreasingSubsequence(int arr[], int n) {
+    vector<int> dp(n, 1);
+    int maxLen = 1;
+    for(int idx = 0; idx < n; idx++){
+        for(int prevIdx = 0; prevIdx <= idx-1; prevIdx++){
+            if(arr[prevIdx] < arr[idx])
+                dp[idx] = max(dp[idx], 1 + dp[prevIdx]);
+        }
+        maxLen = max(maxLen, dp[idx]);
+    }
+    return maxLen;
+}
+
+
 // * BINARY SEARCH APPROACH
+// * This is the most optimized solution for this problem.
 int longestIncreasingSubsequence(int arr[], int n) {
     vector<int> temp;
     temp.push_back(arr[0]);
