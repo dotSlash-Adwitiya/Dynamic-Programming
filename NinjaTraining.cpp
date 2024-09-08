@@ -51,6 +51,7 @@ int helper(int day, int lastTask, vector<vector<int>> &points, vector<vector<int
                 maxi = max(maxi, points[0][task]);
         }
 
+        cout << "Max is : " << maxi << endl;  
         return dp[day][lastTask] = maxi;
     }
 
@@ -62,10 +63,12 @@ int helper(int day, int lastTask, vector<vector<int>> &points, vector<vector<int
     for(int task = 0; task < 3; task++) {
         if(task != lastTask) {
             int point = points[day][task] + helper(day - 1, task, points, dp);
+            // cout << "Points Returned: " << point << endl;
             maxi = max(maxi, point);
         }
     }
 
+    cout << "Max is : " << maxi << endl;
     return dp[day][lastTask] = maxi;
 }
 
@@ -103,9 +106,31 @@ int ninjaTraining(int n, vector<vector<int>> &points)
                 if(task != last){
                     int point = points[day][task] + dp[day-1][task]; 
                     dp[day][last] = max(dp[day][last], point);
+                    cout << point << endl;
                 }
             }
         }
     }
   return dp[n-1][3];
+}
+
+// * SPACE OPTIMIZATION --> CONSTANT SPACE Approach
+int ninjaTraining(int n, vector<vector<int>> &points) {
+    vector<int> prev(3, 0);
+    prev[0] = max(points[0][1], points[0][2]);
+    prev[1] = max(points[0][0], points[0][2]);
+    prev[2] = max(points[0][1], points[0][0]);
+
+    for(int day = 1; day < n; day++) {
+        vector<int> curr(4, 0);
+        for(int last = 0; last < 4; last++) {
+
+            for(int task = 0; task < 3; task++) {
+                if(task != last)
+                 curr[last] = max(curr[last], points[day][task] + prev[task]);
+            }
+        }
+        prev = curr;
+    }
+    return prev[3];
 }
