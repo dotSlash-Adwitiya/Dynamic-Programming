@@ -61,3 +61,26 @@ int palindromePartitioning(string str)
   vector<int> dp(n, -1);
   return f(0, str, n, dp) - 1;
 }
+
+// * TABULATION Approach:
+int palindromePartitioning(string str) {
+  int n = str.size();
+  vector<int> dp(n + 1, -1);
+
+  // * Base CASE:
+  dp[n] = 0; // * (i == n) return 0;
+
+  for(int i = n-1; i >= 0; i--){
+      // * i...j
+      int minCost = INT_MAX;
+      for(int j = i; j < n; j++){
+          if(isPalindrome(i, j, str)){
+              int cost = 1 + dp[j+1];
+              minCost = min(minCost, cost);
+          }
+      }
+      dp[i] = minCost;
+  }
+
+  return dp[0] - 1;
+}
